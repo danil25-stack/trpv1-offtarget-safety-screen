@@ -1,0 +1,8 @@
+# Exact versions this pipeline was validated with (single GPU, CUDA 12.1).
+# For a conda-based setup instead, see docker/environment-esm.yml.
+torch==2.4.0
+fair-esm==2.0.0
+biopython==1.87
+numpy
+requests
+pytest

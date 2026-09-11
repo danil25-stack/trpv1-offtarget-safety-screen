@@ -1,0 +1,13 @@
+name: esm
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - biopython
+  - requests
+  - pytest
+  - pip
+  - pip:
+      - torch==2.4.0
+      - fair-esm==2.0.0

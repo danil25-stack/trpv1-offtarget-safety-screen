@@ -13,8 +13,14 @@ compares those local vectors directly.
 
 Run on a GPU instance (pocket_residue_alignment.py's alignment step is
 cheap/local; this script's ESM-2 forward pass is the actual compute and
-runs on vast.ai per project convention). Requires: pip install fair-esm
-torch.
+runs on vast.ai per project convention).
+
+Environment: docker/environment-esm.yml (or requirements-esm.txt) pins
+the exact versions this was validated with -- PyTorch 2.4.0, CUDA 12.1,
+fair-esm 2.0.0, esm2_t33_650M_UR50D. On that stack (single GPU, e.g. a
+Titan Xp/12GB), embedding all 6 sequences (~730-870 aa each) plus the
+~2.5GB one-time model download takes roughly 2-3 minutes; a warm cache
+(model already downloaded) drops it to well under a minute.
 
 Usage: python esm_pocket_embedding_similarity.py
 Inputs: pocket_residue_alignment.csv (from pocket_residue_alignment.py)
@@ -26,6 +32,8 @@ from pathlib import Path
 
 import torch
 import esm
+
+from pocket_common import filter_common_positions
 
 HERE = Path(__file__).resolve().parent
 FASTA_DIR = HERE / "data_pocket_esm" / "fasta"
@@ -77,12 +85,12 @@ def embed_sequence(model, alphabet, device, seq: str) -> torch.Tensor:
 
 def local_pocket_vector(reps: torch.Tensor, positions: list) -> torch.Tensor:
     """Mean-pool a window around each 1-indexed position, then concatenate
-    across the 4 pocket positions into one vector."""
+    across positions into one vector. `positions` must already exclude
+    any gap (see pocket_common.filter_common_positions) -- there is no
+    zero-padding fallback here on purpose, since that's the exact bug
+    this module used to have."""
     vecs = []
     for pos in positions:
-        if pos is None:
-            vecs.append(torch.zeros(reps.shape[1]))
-            continue
         i = pos - 1
         lo, hi = max(0, i - WINDOW_HALF), min(reps.shape[0], i + WINDOW_HALF + 1)
         vecs.append(reps[lo:hi].mean(dim=0))
@@ -113,16 +121,12 @@ def main():
         paralog_rows = [r for r in alignment_rows if r["paralog"] == name]
         paralog_rows.sort(key=lambda r: int(r["trpv1_pos"]))
 
-        # Compare only positions aligned (non-gap) in *this* paralog. A
-        # gap position zero-padded into the concatenated vector would
-        # inject a whole zero-block into one operand and mechanically
-        # depress cosine similarity regardless of true local similarity
-        # at the other positions -- an artifact, not a biological signal
-        # (caught when TRPV6, which gaps at S512, came out a clear
-        # outlier -- confirmed here it isn't just that).
-        present = [r for r in paralog_rows if r["paralog_pos"]]
-        trpv1_positions_present = [int(r["trpv1_pos"]) for r in present]
-        paralog_positions_present = [int(r["paralog_pos"]) for r in present]
+        # See pocket_common.filter_common_positions docstring: a gapped
+        # position must be dropped from *both* sides, never zero-padded
+        # into the compared vector (that was the original bug).
+        trpv1_positions_present, paralog_positions_present = filter_common_positions(paralog_rows)
+        n_compared = len(trpv1_positions_present)
+        n_gap = len(paralog_rows) - n_compared
 
         trpv1_vec = local_pocket_vector(reps["TRPV1"], trpv1_positions_present)
         paralog_vec = local_pocket_vector(reps[name], paralog_positions_present)
@@ -136,17 +140,17 @@ def main():
                 "paralog": name,
                 "local_pocket_cosine_sim": round(local_cos, 4),
                 "global_meanpool_cosine_sim": round(global_cos, 4),
-                "n_positions_compared": len(present),
-                "n_gap_positions": len(paralog_rows) - len(present),
+                "n_positions_compared": n_compared,
+                "n_gap_positions": n_gap,
             }
         )
         print(
             f"{name}: local_pocket_cos={local_cos:.4f}  global_meanpool_cos={global_cos:.4f}  "
-            f"(n_compared={len(present)}, n_gap={len(paralog_rows) - len(present)})"
+            f"(n_compared={n_compared}, n_gap={n_gap})"
         )
 
     with open(OUT_CSV, "w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+        writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
     print(f"wrote {OUT_CSV}")

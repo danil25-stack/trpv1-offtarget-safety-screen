@@ -1,0 +1,23 @@
+# ESM-2 protein-language-model image for the pocket-residue embedding
+# comparison (target_validation/esm_pocket_embedding_similarity.py).
+# Separate from Dockerfile.docking/Dockerfile.base: this stage needs a
+# CUDA-enabled PyTorch build, not the Vina/OpenBabel cheminformatics stack.
+#
+# Build:  docker build -f docker/Dockerfile.esm -t phd-esm .
+# Run:    docker run --gpus all -v $(pwd)/track_a_analgesic/target_validation:/workspace phd-esm \
+#             python pocket_residue_alignment.py
+#         docker run --gpus all -v $(pwd)/track_a_analgesic/target_validation:/workspace phd-esm \
+#             python esm_pocket_embedding_similarity.py
+#
+# Validated on: PyTorch 2.4.0, CUDA 12.1, single GPU with >=12GB VRAM
+# (Titan Xp). Requires an NVIDIA driver + nvidia-container-toolkit on the
+# host; falls back to CPU (much slower) if no GPU is visible.
+FROM pytorch/pytorch:2.4.0-cuda12.1-cudnn9-runtime
+
+WORKDIR /workspace
+
+RUN pip install --no-cache-dir fair-esm==2.0.0 biopython==1.87 requests pytest
+
+ENV PYTHONUNBUFFERED=1
+
+CMD ["python3"]
