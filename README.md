@@ -35,6 +35,17 @@ shows a similar cross-docking pattern but fails the same check even under
 a zinc-aware scoring function (ROC-AUC ~0.50–0.55), so it is reported as a
 methodologically unresolved watch item rather than a confirmed risk.
 
+**Addendum:** a quantitative follow-up to the paralog-family analysis
+(question 1 above) using local ESM-2 protein-language-model embeddings
+restricted to the four vanilloid-pocket-lining residues (mapped across
+paralogs by pairwise alignment, not compared by raw residue number) —
+see [`target_validation/esm_pocket_similarity.md`](target_validation/esm_pocket_similarity.md).
+It corroborates that TRPV5/TRPV6 diverge from TRPV1 at the pocket more
+than TRPV2–4 do, but not the specific claim that TRPV4 is *more* locally
+divergent than TRPV2/3 — read the writeup's Interpretation/Limitations for
+why (short version: a window-pooled embedding picks up conserved local
+context more than substitution-specific effects).
+
 ## Layout
 
 ```

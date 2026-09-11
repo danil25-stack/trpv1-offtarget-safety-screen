@@ -1,0 +1,6 @@
+paralog,local_pocket_cosine_sim,global_meanpool_cosine_sim,n_positions_compared,n_gap_positions
+TRPV2,0.9646,0.9933,4,0
+TRPV3,0.9648,0.9963,4,0
+TRPV4,0.9689,0.9976,4,0
+TRPV5,0.9344,0.9929,4,0
+TRPV6,0.9407,0.993,3,1
