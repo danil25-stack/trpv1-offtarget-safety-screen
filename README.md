@@ -46,13 +46,29 @@ divergent than TRPV2/3 — read the writeup's Interpretation/Limitations for
 why (short version: a window-pooled embedding picks up conserved local
 context more than substitution-specific effects).
 
+### Running the ESM-2 pocket comparison
+
+```bash
+cd target_validation
+python pocket_residue_alignment.py        # local/CPU, seconds
+python esm_pocket_embedding_similarity.py  # GPU, ~2-3 min cold (model download) / <1 min warm
+```
+
+Environment: PyTorch 2.4.0, CUDA 12.1, fair-esm 2.0.0, `esm2_t33_650M_UR50D`
+(pinned in `requirements-esm.txt` / `docker/environment-esm.yml` /
+`docker/Dockerfile.esm`). Validated on a single 12GB GPU (Titan Xp); the
+model falls back to CPU automatically if no GPU is visible, just slower.
+`pocket_residue_alignment.py` and the pure position-filtering logic it
+feeds (`pocket_common.py`) have unit tests with no GPU/network
+dependency: `pytest target_validation/`.
+
 ## Layout
 
 ```
 target_validation/   pocket comparison, ChEMBL bioactivity, stats, figures, writeups, article
 docking/              cross-docking (Vina + AD4Zn) against the flagged off-targets
 common/               small Open Targets API client used by build_profile.py
-docker/               conda environment + Dockerfile for the compute environment
+docker/               conda environments + Dockerfiles for the two compute stages (docking, ESM)
 ```
 
 Reproduction order and each script's output are listed in the article's

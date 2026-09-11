@@ -59,8 +59,22 @@ def fetch_sequence(accession: str) -> str:
     return "".join(l.strip() for l in lines if not l.startswith(">"))
 
 
-def align_and_map(trpv1_seq: str, other_seq: str) -> dict:
-    """Global pairwise alignment; returns {trpv1_1indexed_pos: other_1indexed_pos_or_None}."""
+def align_and_map(trpv1_seq: str, other_seq: str, positions_of_interest=None) -> dict:
+    """Global pairwise alignment; returns {trpv1_1indexed_pos: other_1indexed_pos_or_None}
+    for each position in `positions_of_interest` (defaults to the real
+    vanilloid-pocket positions, POCKET_RESIDUES) -- a value of None means
+    that TRPV1 position aligns to a gap in `other_seq`.
+
+    `positions_of_interest` is a parameter (not hardcoded to
+    POCKET_RESIDUES) specifically so this function is unit-testable with
+    small synthetic sequences/positions -- see
+    test_pocket_residue_alignment.py.
+    """
+    if positions_of_interest is None:
+        positions_of_interest = set(POCKET_RESIDUES)
+    else:
+        positions_of_interest = set(positions_of_interest)
+
     aligner = Align.PairwiseAligner()
     aligner.substitution_matrix = substitution_matrices.load("BLOSUM62")
     aligner.open_gap_score = -11
@@ -77,7 +91,7 @@ def align_and_map(trpv1_seq: str, other_seq: str) -> dict:
             trpv1_pos += 1
         if b_res != "-":
             other_pos += 1
-        if a_res != "-" and trpv1_pos in POCKET_RESIDUES:
+        if a_res != "-" and trpv1_pos in positions_of_interest:
             mapping[trpv1_pos] = other_pos if b_res != "-" else None
     return mapping
 
@@ -123,7 +137,7 @@ def main():
 
     out_csv = HERE / "pocket_residue_alignment.csv"
     with open(out_csv, "w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+        writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
