@@ -1,0 +1,17 @@
+name: base
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - rdkit
+  - pandas
+  - numpy
+  - scikit-learn
+  - requests
+  - jupyterlab
+  - biopython
+  - openbabel
+  - vina
+  - gemmi
+  - fpocket
+  - pip
