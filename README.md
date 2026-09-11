@@ -1,5 +1,7 @@
 # TRPV1 off-target safety screen
 
+[![tests](https://github.com/danil25-stack/trpv1-offtarget-safety-screen/actions/workflows/tests.yml/badge.svg)](https://github.com/danil25-stack/trpv1-offtarget-safety-screen/actions/workflows/tests.yml)
+
 In silico off-target safety triage for a topical TRPV1-directed analgesic,
 extracted from a larger multi-target drug discovery project. Full writeup
 and manuscript draft: [`target_validation/OFFTARGET_SAFETY_ARTICLE_EN.md`](target_validation/OFFTARGET_SAFETY_ARTICLE_EN.md)
