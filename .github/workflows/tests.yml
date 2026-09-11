@@ -1,0 +1,26 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  cpu-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Only the alignment/gap-filtering logic is unit-tested here -- it
+      # needs biopython + requests, not torch/fair-esm. The ESM-2 forward
+      # pass itself (esm_pocket_embedding_similarity.py) is GPU compute,
+      # not something to run on every push; see docker/Dockerfile.esm.
+      - name: Install test dependencies
+        run: pip install biopython requests pytest
+
+      - name: Run tests
+        working-directory: target_validation
+        run: pytest -v
