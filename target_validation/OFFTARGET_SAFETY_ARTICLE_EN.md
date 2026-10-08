@@ -1,8 +1,9 @@
 *[Manuscript draft — journal format. Author name(s), affiliation(s), funding,
 and conflict-of-interest statements are left as placeholders below for you to
-complete. Reference list entries marked "verify before submission" were
-confirmed for title/journal/year/DOI via search but not for the complete
-author list — check against the primary source before citing.]*
+complete. Every reference has been checked against Crossref/PubMed for title,
+journal, year, volume, pages, and author list (as of 8 October 2026); the only
+entry still needing a re-check before submission is ref. 22 (a bioRxiv
+preprint — verify peer-reviewed publication status).]*
 
 # In silico screening for potential off-target interactions of topical TRPV1 agonists: from paralog analysis to structure-based pocket comparison and cross-docking
 
@@ -19,8 +20,9 @@ validated analgesic mechanism (e.g., capsaicin 8% patch), but off-target
 safety assessment for new candidates in this class is typically limited to
 the TRPV1 sequence-paralog family (TRPV2–6) and addressed late, via
 empirical in vitro panels. **Methods.** We combined a curated
-paralog-family literature review with a structure-based computational
-screen: a tissue-expression filter (Human Protein Atlas) to identify
+paralog-family literature review — extended by a quantitative comparison of
+local pocket-residue representations from the ESM-2 protein language model —
+with a structure-based computational screen: a tissue-expression filter (Human Protein Atlas) to identify
 druggable, skin-enriched proteins unrelated to TRPV1 by sequence; cavity
 detection (fpocket) to compare candidate binding-pocket geometry and
 physicochemistry against TRPV1's vanilloid pocket without docking; and
@@ -36,9 +38,15 @@ across TRPV1–3 independent of overall identity, while TRPV4's selectivity
 is achieved by point substitutions within an otherwise similar pocket.
 Outside the family, a genome-scale skin-expression screen (604 candidate
 genes) combined with druggability filtering and pocket-fingerprint
-comparison flagged three targets independent of the ranking method used:
-matrix metalloproteinase-3 (MMP3), retinoic acid receptor gamma (RARG), and
-bleomycin hydrolase (BLMH). Cross-docking supported the strongest of these
+comparison put three genes at the top of both independent rankings — matrix
+metalloproteinase-3 (MMP3), neurotrophin-4 (NTF4), and bleomycin hydrolase
+(BLMH); after a known-biology cross-check (which deprioritized NTF4 as a
+probable protein–protein interface) and a separate, pre-specified
+biology-driven prioritization applied to the full 26-gene list, MMP3 and
+retinoic acid receptor gamma (RARG) were carried into cross-docking — the
+latter leading neither distance ranking but having near-maximal
+druggability and being the target of an already-approved topical
+retinoid. Cross-docking supported the strongest of these
 predictions without confirming it: for most of the seven TRPV1 reference
 agonists, Vina docking scores against RARG's retinoid pocket, and,
 separately, against a corrected zinc/calcium-retaining MMP3 receptor, were
@@ -57,7 +65,13 @@ receptor. RARG passed this ground-truth check (ROC-AUC 0.811); MMP3 did
 not (ROC-AUC 0.503, indistinguishable from chance) and remained
 near-chance (ROC-AUC 0.551) even after replacing the plain Vina scoring
 function with AD4Zn, a force field with an explicit zinc-coordination
-potential.
+potential. Separately, to put the qualitative paralog claim on a
+quantitative footing, we compared local ESM-2 representations restricted to
+the four vanilloid-pocket-lining residues and mapped across paralogs by
+alignment: these reproduce the greater pocket-level divergence of
+TRPV5/TRPV6 (0.93–0.94 versus 0.965–0.969 for TRPV2–4) but do not
+corroborate the TRPV4-specific part of the claim, which we read as a
+limitation of window pooling.
 **Conclusions.** Off-target risk for this chemical series is plausibly not
 confined to the TRPV/TRPA family and, on this evidence, is not obviously
 restricted to smaller or simpler candidates either — it spans most of the
@@ -76,7 +90,7 @@ programs.
 **Keywords:** TRPV1; off-target safety; molecular docking; pocket
 similarity; fpocket; retinoic acid receptor gamma; matrix metalloproteinase-3;
 topical analgesic; in silico toxicology; polypharmacology; AutoDock4Zn;
-docking enrichment; ROC-AUC
+docking enrichment; ROC-AUC; ESM-2; protein language models
 
 ## 1. Introduction
 
@@ -85,7 +99,7 @@ channel that transduces noxious heat, protons, and vanilloid ligands in
 peripheral nociceptors, and is the mechanistic target of the only approved
 topical agonist-desensitization analgesic in this class (capsaicin 8%
 patch, Qutenza) [18]. Systemic TRPV1 antagonism has repeatedly failed in
-clinical development because of on-target hyperthermia, which has directed
+clinical development because of on-target hyperthermia [30], which has directed
 renewed interest in topical, agonist-driven strategies aimed at minimizing
 (not eliminating) systemic exposure — even the approved capsaicin patch
 shows low, transient plasma capsaicin levels in a minority of patients per
@@ -196,7 +210,7 @@ inhibitor L04), keeping all resolved Zn²⁺ (n=2) and Ca²⁺ (n=3) ions as a
 rigid part of the receptor and centering the search box on the
 co-crystallized ligand's centroid (padded 8 Å per side to accommodate
 ligands larger than L04; center (35.34, 36.10, 24.54) Å, size
-25.7×19.6×21.4 Å). Docking was performed with AutoDock Vina [9]
+25.7×19.6×21.4 Å). Docking was performed with AutoDock Vina [9,26]
 (exhaustiveness 32, 9 output poses), matching the settings already
 validated for the TRPV1 receptor in the group's docking pipeline. TRPV1
 reference scores for the same seven ligands were taken from the group's
@@ -256,6 +270,33 @@ script. Ligands were prepared with macrocyclic rings held rigid
 introduces synthetic atom types not represented in the classic AD4Zn
 parameter set.
 
+### 2.6 Quantitative check of local pocket similarity within the paralog family
+
+The claim in Sections 2.1/3.1 — that whole-protein identity is a poor proxy
+for binding-site-level risk — was initially qualitative and
+literature-sourced. To test it quantitatively without reproducing the same
+whole-protein-identity limitation, we compared local representations of the
+vanilloid-pocket residues themselves using the ESM-2 protein language model
+[33]. TRPV1's four pocket-lining residues (Tyr511, Ser512, Thr550, Glu570;
+confirmed against the canonical UniProt Q8NER1 sequence [7]) were mapped
+onto the aligned position in each paralog (Q9Y5S1/TRPV2, Q8NET8/TRPV3,
+Q9HBA0/TRPV4, Q9NQA5/TRPV5, Q9H1D0/TRPV6) by global pairwise alignment
+(Biopython, BLOSUM62) [34] rather than by raw residue number. All four
+positions sit in a strongly conserved local motif in every paralog (for
+example, TRPV1's T550 window `LALGW[T]NMLYY` versus TRPV4's
+`LVLGW[M]NALYF`), so alignment confidence is high; only TRPV6 has a real
+gap (no aligned residue for S512). One forward pass of
+`esm2_t33_650M_UR50D` was run per full-length sequence — so that each
+residue's representation carries genuine sequence context rather than a
+stripped-out peptide fragment — and final-layer per-residue
+representations were mean-pooled over a ±2-residue window around each of
+the four positions and concatenated into one local pocket vector per
+protein. Similarity to TRPV1 was computed as cosine similarity **over only
+those positions aligned in both proteins** (TRPV6: 3 of 4; all others: 4 of
+4). In parallel, and computed the same way, whole-sequence mean-pooled
+cosine similarity was reported as an explicit negative control predicted
+not to discriminate.
+
 ## 3. Results
 
 ### 3.1 TRPV1 paralog family: binding-site conservation is not predicted by whole-protein identity
@@ -267,15 +308,17 @@ S3/S4/S4–S5-linker of one subunit and S5/S6 of the neighboring subunit) is
 reported to be structurally and sequence-wise conserved across TRPV1, TRPV2,
 and TRPV3 specifically — sufficiently so that this region is
 experimentally transplantable between orthologs and confers vanilloid
-sensitivity onto otherwise-insensitive channels [5,10]. This implies that
+sensitivity onto otherwise-insensitive channels [5,10,25]. This implies that
 TRPV2 and TRPV3's real off-target pocket risk may exceed what their
 whole-protein identity (45.0% and 39.0%, respectively) suggests. Second,
 TRPV4 (41.9% identity) achieves natural selectivity against vanilloids via
 point substitutions within an overall similar pocket architecture [10],
-and its clinical antagonist GSK2798745 was well tolerated through repeat
-dosing in heart-failure patients with no cardiopulmonary safety signal
-[11] — despite TRPV4 *activation* being separately implicated in cardiogenic
-pulmonary edema, indicating the clinically relevant liability is
+and its clinical antagonist GSK2798745 was tolerated through repeat dosing
+in patients with stable heart failure (up to 7 days) with no significant
+safety issues or serious adverse events [11] — despite systemic TRPV4
+*activation* separately causing endothelial failure and circulatory
+collapse in preclinical models [29], indicating the clinically relevant
+liability is
 direction-dependent and an antagonist-mediated off-target hit trends
 protective rather than causative. TRPV5 and TRPV6 (28.4% and 27.2%
 identity), by contrast, are calcium-selective channels with a distinct
@@ -291,11 +334,11 @@ liability.
 | Paralog | Identity to TRPV1 | Liability if hit off-target |
 |---|---|---|
 | TRPV2 | 45.0% | Developmental cardiac Ca²⁺-handling role; adult whole-body knockout and neutralizing-antibody dosing show no overt phenotype [13,14]. |
-| TRPV4 | 41.9% | Direction-dependent: activation implicated in cardiogenic pulmonary edema, but clinical antagonism (GSK2798745) well-tolerated with no cardiopulmonary signal [11]. |
+| TRPV4 | 41.9% | Direction-dependent: systemic activation causes endothelial failure and circulatory collapse in preclinical models [29], whereas the clinical antagonist (GSK2798745) was tolerated in a first-time-in-human study with no significant safety issues or serious adverse events in healthy volunteers and patients with stable heart failure (dosing up to 7 days) [11]. |
 | TRPV3 | 39.0% | Shares TRPV1's topical site of action; human gain-of-function mutations cause Olmsted syndrome (painful keratoderma, pruritus, skin-barrier failure) [15]. |
-| TRPV5 | 28.4% | Rate-limiting channel for renal distal-tubule Ca²⁺ reabsorption; plausible hypercalciuria risk if inhibited. |
+| TRPV5 | 28.4% | Rate-limiting channel for renal distal-tubule Ca²⁺ reabsorption: knockout mice show urinary Ca²⁺ wasting, compensatory intestinal hyperabsorption, and reduced bone thickness [28]; plausible hypercalciuria risk if inhibited. |
 | TRPV6 | 27.2% | Most consequential paralog: knockout shows impaired intestinal Ca²⁺ absorption, reduced bone mineral density, alopecia/dermatitis, severe male infertility [12]. |
-| TRPA1 | n/a (not a sequence paralog) | Two independent clinical antagonist programs (LY3526318; a second undisclosed compound) show acceptable Phase 1 safety but failed on efficacy across several pain indications [16]. |
+| TRPA1 | n/a (not a sequence paralog) | The selective antagonist LY3526318 was tested in three randomized placebo-controlled proof-of-concept studies (knee osteoarthritis pain, chronic low back pain, diabetic peripheral neuropathic pain): the primary endpoint was not met in any (numerical improvement only in chronic low back pain), and a potential drug-induced hepatotoxic effect was identified, posing a risk for clinical development [16]. |
 
 ### 3.2 Structure-based screen identifies three off-target candidates outside the TRPV/TRPA family
 
@@ -344,8 +387,13 @@ scenario — it is the mechanism of at least one approved topical drug — thoug
 this says nothing about whether our specific candidate ligands would bind,
 nor about the functional consequence (agonism, antagonism, or no effect) if
 they did. BLMH (bleomycin hydrolase) is independently notable
-because reduced cutaneous BLMH activity is already implicated in a real
-topically-relevant drug toxicity (bleomycin-induced flagellate dermatitis).
+because bleomycin does cause a well-described skin-specific toxicity
+(flagellate erythema/dermatitis) [32], and low activity of the inactivating
+hydrolase in skin and lung has historically been proposed as a hypothetical
+explanation for that tissue selectivity [31]. We note that this link
+remains a hypothesis rather than an established mechanism: there is no
+direct evidence that small-molecule modulation of BLMH reproduces this
+toxicity.
 NTF4 (a secreted TrkB ligand, more likely to present a protein–protein
 interface than a small-molecule pocket) and SERPINB5 (a serpin, whose
 near-maximal druggability score is inconsistent with its
@@ -487,6 +535,52 @@ across two structurally unrelated receptors — that the Table 2 argument
 depends on. This is consistent with, and considerably sharpens, the
 borderline redocking RMSD already flagged for MMP3 in Section 3.3.
 
+### 3.5 Local ESM-2 pocket representations corroborate TRPV5/TRPV6 divergence but not the TRPV4-specific claim
+
+Table 4 tests the qualitative claim of Section 3.1 in a way that is
+independent of sequence identity.
+
+**Table 4.** Cosine similarity of local (pocket-residue) and whole-protein
+ESM-2 representations to TRPV1.
+
+| Paralog | Local similarity (pocket residues) | Whole-protein similarity (negative control) | Positions compared |
+|---|---|---|---|
+| TRPV2 | 0.9646 | 0.9933 | 4/4 |
+| TRPV3 | 0.9648 | 0.9963 | 4/4 |
+| TRPV4 | 0.9689 | 0.9976 | 4/4 |
+| TRPV5 | 0.9344 | 0.9929 | 4/4 |
+| TRPV6 | 0.9407 | 0.9930 | 3/4 (gap at S512) |
+
+The negative control proved exactly as uninformative as predicted:
+0.993–0.998 across all five paralogs, a ~0.005 spread that does not even
+reproduce the whole-protein identity ranking of Table 1 (TRPV4 has the
+*highest* global similarity here while being the second-lowest-identity
+paralog). This confirms that whole-sequence mean-pooled representations are
+not a useful lens for this question, independent of the percent-identity
+argument already made in Section 2.1.
+
+The local metric, by contrast, separates a real axis: TRPV2/TRPV3/TRPV4
+cluster tightly (0.965–0.969) while TRPV5/TRPV6 sit measurably lower
+(0.93–0.94). This is consistent with the literature-based claim that
+TRPV5/6 — calcium-selective channels with a distinct pore architecture —
+diverge more at the pocket than TRPV2–4 do, and constitutes a second,
+independent (representation-based rather than identity-based) line of
+evidence for that specific part of the claim.
+
+It does **not**, however, corroborate the TRPV4-specific part. TRPV4 has no
+same-physicochemical-class match at any of the four pocket positions
+(Y511→S, S512→F, T550→M, E570→Q — all class changes), making it more
+substituted than TRPV2 or TRPV3 by that discrete measure, and yet it has
+the highest local ESM-2 similarity of the group. A plausible reading is
+that a five-residue window mean-pool is dominated by the strongly conserved
+flanking motif shared across TRPV1–4, so the signal here is closer to "how
+conserved is the local structural context" than to "how conservative is
+the specific substitution". This should be read as a limitation of the
+window-pooling approach rather than as evidence against the literature's
+TRPV4 point-substitution argument, which concerns the functional
+consequence of one specific residue change rather than local-context
+similarity.
+
 ## 4. Discussion
 
 This screen demonstrates that structure-based off-target triage — cheap
@@ -552,7 +646,22 @@ bioactivity/literature sources without confirming that all seven were
 measured in a directly comparable assay format; the series is used here
 qualitatively, to span a wide potency range, and the EC50 column should not
 be read as a precisely comparable quantitative scale across compounds
-without checking primary sources for each value.
+without checking primary sources for each value. Eighth, the ESM-2
+representation comparison (Sections 2.6/3.5) yields one embedding per
+protein with no ensemble or uncertainty estimate, so the ~0.03–0.04 spread
+between TRPV2–4 and TRPV5/6 should be treated as suggestive rather than a
+statistically tested separation (no ground-truth labels exist here on which
+to build a discrimination check of the kind used in Section 3.4); TRPV6's
+comparison uses one position fewer (3 versus 4) because of a real alignment
+gap; and the window size (±2 residues) was not tuned, so a narrower or
+wider window could shift the balance between substitution-specific and
+local-context signal discussed in Section 3.5, meaning a sensitivity check
+is needed before leaning on this method for a stronger claim. Applying the
+same approach to the RARG/MMP3 off-target comparison is not possible by
+construction: per-residue ESM comparison requires a genuine sequence
+alignment between homologous proteins, and RARG and MMP3 are unrelated to
+TRPV1 by sequence — which is precisely why the geometric fpocket screen was
+used for them.
 
 Despite these caveats, the practical implication for a topical TRPV1
 program is direct for RARG: a counter-screen (at minimum, a
@@ -578,7 +687,7 @@ spans most of the tested series rather than concentrating in smaller
 ligands, it should not be assumed that a topical-delivery-optimized
 molecular-weight/logP selection window (200–450 Da, logP 1.0–4.0, already
 used elsewhere in this program's chemical library curation for
-permeability reasons [17]) mitigates this particular risk merely by
+permeability reasons [17,27]) mitigates this particular risk merely by
 favoring smaller candidates. More broadly, the pipeline described here — tissue
 expression filtering, cavity-detection-based pocket comparison, and
 targeted cross-docking — required no experimental data beyond structures
@@ -626,10 +735,28 @@ topical small-molecule discovery programs.
 
 ## Data and code availability
 
-All scripts, intermediate data schemas, and result tables underlying this
-work are available in the project repository (`track_a_analgesic/`
-directory: `target_validation/`, `docking/`, `md_residence_time/`
-subfolders). Provenance of each result is listed in the table below.
+All scripts, intermediate data schemas, and summary result tables
+underlying this work are collected in the `trpv1-offtarget-safety-screen`
+repository (https://github.com/danil25-stack/trpv1-offtarget-safety-screen),
+laid out as follows: `target_validation/` (pocket comparison, ChEMBL
+bioactivity, statistics, figures, writeups, manuscript), `docking/`
+(Vina and AD4Zn cross-docking against the flagged off-targets), `common/`
+(Open Targets API client), and `docker/` (conda environments and
+Dockerfiles for the two compute stages, docking and ESM). Raw and
+intermediate data (structure files, ChEMBL pulls, docking poses) are not
+included — rerunning the scripts regenerates them; only final figures and
+written results are kept. The pocket-position mapping logic is covered by
+unit tests with no GPU or network dependency (`pytest target_validation/`),
+which run in CI (`.github/workflows/tests.yml`). Three cross-references
+point to files in the parent (private) project and are not needed to
+reproduce anything in this repository: the TRPV1 MD residence-time pilot
+(`md_residence_time/STATUS.md`), the docking smoke test
+(`docking/SMOKE_TEST.md`), and the ZINC diversity-triage writeup
+(`docking/ZINC_TRIAGE.md`). The repository is public; link availability was
+checked on 8 October 2026. Parent-project material referenced above remains
+private and is available from the corresponding author on request.
+
+Provenance of each result is listed in the table below.
 
 | Result | Script | Output |
 |---|---|---|
@@ -644,7 +771,9 @@ subfolders). Provenance of each result is listed in the table below.
 | Ground-truth discrimination docking (Vina) | `docking/run_offtarget_validation.py` | per-target discrimination-check results, ROC-AUC |
 | Ground-truth discrimination docking (AD4Zn) | `docking/run_ad4zn_validation.py`, `docking/prepare_gpf4zn_lite.py`, `docking/zinc_pseudo.py` | MMP3 AD4Zn discrimination-check results |
 | Discrimination statistics (bootstrap CI, Mann-Whitney *p*, PR-AUC, EC50-mixing check) | `target_validation/discrimination_stats.py` | Table 3 statistics; `figures/roc_curves.png`, `figures/score_distributions.png` |
-| Pipeline funnel figure | `target_validation/render_pocket_figure.py` | `figures/pipeline_funnel.png` |
+| Pipeline funnel and pocket-shape figures | `target_validation/render_pocket_figure.py` | `figures/pipeline_funnel.png`, `figures/pocket_shapes.png` |
+| Pocket-residue alignment across paralogs | `target_validation/pocket_residue_alignment.py` | `target_validation/pocket_residue_alignment.csv` |
+| Local/global ESM-2 representation similarity (Table 4) | `target_validation/esm_pocket_embedding_similarity.py` | `target_validation/esm_pocket_similarity.csv`, `target_validation/esm_pocket_similarity.md` |
 
 ## Funding
 
@@ -667,52 +796,51 @@ subfolders). Provenance of each result is listed in the table below.
 4. Elokely K, Velisetty P, Delemotte L, Palovcak E, Klein ML, Rohacs T,
    Carnevale V. Understanding TRPV1 activation by ligands: insights from
    the binding modes of capsaicin and resiniferatoxin. *Proc Natl Acad Sci
-   USA.* 2016;113(2):E137–E145. *(verify before submission)*
-5. *[Structural/mutagenesis studies establishing Tyr511, Ser512, Thr550,
-   Glu570 as vanilloid-pocket-lining residues — verify and cite primary
-   cryo-EM/mutagenesis sources, e.g. Cao E, Liao M, Cheng Y, Julius D
-   (2013, Nature) and related follow-up structural papers, before
-   submission.]*
+   U S A.* 2016;113(2):E137–E145. doi:10.1073/pnas.1517288113
+5. Yang F, Xiao X, Cheng W, et al. Structural mechanism underlying
+   capsaicin binding and activation of the TRPV1 ion channel. *Nat Chem
+   Biol.* 2015;11(7):518–524. doi:10.1038/nchembio.1835
 6. Berman HM, Westbrook J, Feng Z, et al. The Protein Data Bank. *Nucleic
-   Acids Res.* 2000;28(1):235–242. *(verify before submission)*
-7. UniProt Consortium. UniProt: the Universal Protein Knowledgebase.
-   *Nucleic Acids Res.* (current release; verify year/volume before
-   submission).
-8. Ravindranath PA, et al. Meeko: preparation of small molecules and
-   macromolecules for AutoDock/AutoDock Vina docking. Software.
-   https://github.com/forlilab/Meeko *(cite as software; verify preferred
-   citation format from the repository before submission)*
+   Acids Res.* 2000;28(1):235–242. doi:10.1093/nar/28.1.235
+7. UniProt Consortium. UniProt: the Universal Protein Knowledgebase in
+   2025. *Nucleic Acids Res.* 2025;53(D1):D609–D617.
+   doi:10.1093/nar/gkae1010
+8. Santos-Martins D, He Y, Eberhardt J, et al. Meeko: molecule
+   parametrization and software interoperability for docking and beyond.
+   *J Chem Inf Model.* 2025;65(24):13045–13050.
+   doi:10.1021/acs.jcim.5c02271
 9. Trott O, Olson AJ. AutoDock Vina: improving the speed and accuracy of
    docking with a new scoring function, efficient optimization, and
    multithreading. *J Comput Chem.* 2010;31(2):455–461.
    doi:10.1002/jcc.21334
-10. *[Structural comparison of the TRPV1–4 vanilloid-pocket region and
-    TRPV4 selectivity-determining residues — verify and cite primary
-    source before submission.]*
-11. Goldsmith P, et al. Clinical pharmacokinetics, safety, and tolerability
-    of a novel, first-in-class TRPV4 ion channel inhibitor, GSK2798745, in
-    healthy and heart failure subjects. *Clin Pharmacokinet.* 2019.
-    PMID: 30637626. *(verify full author list, volume, and pages before
-    submission)*
-12. *[TRPV6 knockout phenotype — verify and cite primary knockout-mouse
-    study, e.g. Bianco SD et al. J Bone Miner Res 2007, before
-    submission.]*
+10. Zhang F, Hanson SM, Jara-Oseguera A, et al. Engineering
+    vanilloid-sensitivity into the rat TRPV2 channel. *eLife.*
+    2016;5:e16409. doi:10.7554/eLife.16409
+11. Goyal N, Skrdla P, Schroyer R, et al. Clinical pharmacokinetics,
+    safety, and tolerability of a novel, first-in-class TRPV4 ion channel
+    inhibitor, GSK2798745, in healthy and heart failure subjects. *Am J
+    Cardiovasc Drugs.* 2019;19(3):335–342. doi:10.1007/s40256-018-00320-6
+12. Bianco SD, Peng JB, Takanaga H, et al. Marked disturbance of calcium
+    homeostasis in mice with targeted disruption of the *Trpv6* calcium
+    channel gene. *J Bone Miner Res.* 2007;22(2):274–285.
+    doi:10.1359/jbmr.061110
 13. Iwata Y, Matsumura T. Blockade of TRPV2 is a novel therapy for
     cardiomyopathy in muscular dystrophy. *Int J Mol Sci.*
     2019;20(16):3844. doi:10.3390/ijms20163844
-14. *[TRPV2-neutralizing-antibody safety data — verify and cite primary
-    source before submission.]*
+14. Iwata Y, Wakabayashi S, Ito S, Kitakaze M. Production of
+    TRPV2-targeting functional antibody ameliorating dilated
+    cardiomyopathy and muscular dystrophy in animal models. *Lab Invest.*
+    2020;100(2):324–337. doi:10.1038/s41374-019-0363-1
 15. Lu A, Li K, Huang C, Yu B, Zhong W. Pathogenesis and management of
     TRPV3-related Olmsted syndrome. *Front Genet.* 2024;15:1459109.
     doi:10.3389/fgene.2024.1459109
-16. [Authors]. Clinical proof-of-concept results with a novel TRPA1
-    antagonist (LY3526318) in 3 chronic pain states. *Pain.*
-    2025;166(7):1497–1518. doi:10.1097/j.pain.0000000000003487 *(verify
-    full author list before submission)*
-17. *[Skin-permeability MW/logP rationale — verify and cite Bos & Meinardi
-    2000 (Skin Pharmacol Appl Skin Physiol) and/or Potts & Guy
-    permeability-correlation sources before submission, consistent with
-    `docking/ZINC_TRIAGE.md`.]*
+16. Mellado Lagarde MM, Wilbraham D, Fonseca Martins R, et al. Clinical
+    proof-of-concept results with a novel TRPA1 antagonist (LY3526318) in
+    3 chronic pain states. *Pain.* 2025;166(7):1497–1518.
+    doi:10.1097/j.pain.0000000000003487
+17. Bos JD, Meinardi MMHM. The 500 Dalton rule for the skin penetration of
+    chemical compounds and drugs. *Exp Dermatol.* 2000;9(3):165–169.
+    doi:10.1034/j.1600-0625.2000.009003165.x
 18. QUTENZA (capsaicin) topical system, prescribing information. U.S. Food
     and Drug Administration, NDA 022395. Original approval 2009; cited
     revision 2023. Transient, low (<5 ng/mL) plasma capsaicin was detected
@@ -721,31 +849,61 @@ subfolders). Provenance of each result is listed in the table below.
     3–6 hours. https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/022395s023lbl.pdf
 19. Thoreau E, Arlabosse JM, Bouix-Peter C, et al. Structure-based design
     of trifarotene (CD5789), a potent and selective RARγ agonist for the
-    treatment of acne. *Bioorg Med Chem Lett.* 2018. doi:10.1016/j.bmcl.2018.04.036
-    *(this is the source publication for PDB 6FX0, used directly in this
-    study; verify volume/pages before submission)*
+    treatment of acne. *Bioorg Med Chem Lett.* 2018;28(10):1736–1741.
+    doi:10.1016/j.bmcl.2018.04.036 *(source publication for PDB 6FX0, used
+    directly in this study)*
 20. Chandraratna RAS. Tazarotene — first of a new generation of
     receptor-selective retinoids. *Br J Dermatol.* 1996;135(Suppl
-    49):18–25. PMID: 9035701
-21. Esser CK, Bugianesi RL, Caldwell CG, et al. Inhibition of stromelysin-1
-    (MMP-3) by P1'-biphenylylethyl carboxyalkyl dipeptides. *J Med Chem.*
-    1997. doi:10.1021/jm960465t *(source publication for PDB 1HFS, used
-    directly in this study; verify volume/pages before submission)*
+    49):18–25. doi:10.1111/j.1365-2133.1996.tb15662.x
+21. Esser CK, Bugianesi RL, Caldwell CG, et al. Inhibition of
+    stromelysin-1 (MMP-3) by P1′-biphenylylethyl carboxyalkyl dipeptides.
+    *J Med Chem.* 1997;40(6):1026–1040. doi:10.1021/jm960465t *(source
+    publication for PDB 1HFS, used directly in this study)*
 22. Lopez KE, Paduda AS, Derrick MJ, Van Horn WD. TRPV1 antagonism occurs
     through diverse structural mechanisms. *bioRxiv.* 2026.
     doi:10.64898/2026.04.27.721197 *(source publication for PDB 11CK, used
-    directly in this study; this is a preprint — verify publication status
-    before submission)*
+    directly in this study; this is a preprint — verify peer-reviewed
+    publication status before submission)*
 23. Zdrazil B, Felix E, Hunter F, et al. The ChEMBL Database in 2023: a
     drug discovery platform spanning multiple bioactivity data types and
     time periods. *Nucleic Acids Res.* 2024;52(D1):D1180–D1192.
     doi:10.1093/nar/gkad1004 *(source of RARG/MMP3 known active/inactive
     bioactivity data used directly in this study, via the ChEMBL REST API,
-    targets CHEMBL2003 and CHEMBL283; verify preferred current-release
-    citation before submission)*
+    targets CHEMBL2003 and CHEMBL283)*
 24. Santos-Martins D, Forli S, Ramos MJ, Olson AJ. AutoDock4(Zn): an
     improved AutoDock force field for small-molecule docking to zinc
     metalloproteins. *J Chem Inf Model.* 2014;54(8):2371–2379.
     doi:10.1021/ci500209e *(source of the AD4Zn zinc-coordination force
     field used directly in this study for the MMP3 discrimination check,
     Section 2.5/3.4)*
+25. Cao E, Liao M, Cheng Y, Julius D. TRPV1 structures in distinct
+    conformations reveal activation mechanisms. *Nature.*
+    2013;504(7478):113–118. doi:10.1038/nature12823
+26. Eberhardt J, Santos-Martins D, Tillack AF, Forli S. AutoDock Vina
+    1.2.0: new docking methods, expanded force field, and Python bindings.
+    *J Chem Inf Model.* 2021;61(8):3891–3898. doi:10.1021/acs.jcim.1c00203
+27. Potts RO, Guy RH. Predicting skin permeability. *Pharm Res.*
+    1992;9(5):663–669. doi:10.1023/A:1015810312465
+28. Hoenderop JG, van Leeuwen JP, van der Eerden BC, et al. Renal Ca²⁺
+    wasting, hyperabsorption, and reduced bone thickness in mice lacking
+    TRPV5. *J Clin Invest.* 2003;112(12):1906–1914. doi:10.1172/JCI19826
+29. Willette RN, Bao W, Nerurkar S, et al. Systemic activation of the
+    transient receptor potential vanilloid subtype 4 channel causes
+    endothelial failure and circulatory collapse. *J Pharmacol Exp Ther.*
+    2008;326(2):443–452. doi:10.1124/jpet.107.134551
+30. Gavva NR, Treanor JJS, Garami A, et al. Pharmacological blockade of
+    the vanilloid receptor TRPV1 elicits marked hyperthermia in humans.
+    *Pain.* 2008;136(1-2):202–210. doi:10.1016/j.pain.2008.01.024
+31. Lazo JS, Boland CJ, Schwartz PE. Bleomycin hydrolase activity and
+    cytotoxicity in human tumors. *Cancer Res.* 1982;42(10):4026–4031.
+    PMID: 6179595
+32. Ching D, Wood BA, Tiwari S, Chan J, Harvey NT. Histological features
+    of flagellate erythema. *Am J Dermatopathol.* 2019;41(6):410–421.
+    doi:10.1097/DAD.0000000000001271
+33. Lin Z, Akin H, Rao R, et al. Evolutionary-scale prediction of
+    atomic-level protein structure with a language model. *Science.*
+    2023;379(6637):1123–1130. doi:10.1126/science.ade2574
+34. Cock PJA, Antao T, Chang JT, et al. Biopython: freely available Python
+    tools for computational molecular biology and bioinformatics.
+    *Bioinformatics.* 2009;25(11):1422–1423.
+    doi:10.1093/bioinformatics/btp163
