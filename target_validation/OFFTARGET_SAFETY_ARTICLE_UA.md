@@ -1,18 +1,8 @@
-*[Чернетка рукопису — формат наукової статті. Ім'я(ена) автора(ів),
-афіліація(ії), джерела фінансування та заява про конфлікт інтересів
-залишені як плейсхолдери нижче — заповніть перед поданням. Усі позиції
-списку літератури звірено з Crossref/PubMed за назвою, журналом, роком,
-томом, сторінками та списком авторів (станом на 8 жовтня 2026 р.); єдина
-позиція, що потребує повторної перевірки перед поданням, — п. 22
-(препринт bioRxiv, перевірити статус рецензованої публікації).]*
-
 # Комп'ютерний скринінг потенційних позамішеневих взаємодій топічних агоністів TRPV1: від аналізу паралогів до структурного порівняння кишень і крос-докінгу
 
-**[Ім'я автора(ів)]**¹
+**Д. Маслов**, **А. Девіс**, **А. Голуб**
 
-¹ *[Афіліація, кафедра/відділ, установа, місто, країна]*
-
-Автор для листування: *[email]*
+Автор для листування: 99danilmaslov@gmail.com
 
 ## Анотація
 
@@ -781,7 +771,9 @@ TRPV1 прямий для RARG: контрскринінг (щонайменше
 
 ## Внесок авторів
 
-*[заповнити]*
+Д.М. спланував і виконав обчислювальну роботу та підготував рукопис.
+А.Д. і А.Г. здійснювали наукове керівництво та критичне редагування
+рукопису. Усі автори схвалили остаточну версію.
 
 ## Доступність даних і коду
 
@@ -806,10 +798,9 @@ Vina та AD4Zn проти відібраних позамішеневих мі�
 smoke-тест докінгу (`docking/SMOKE_TEST.md`) і опис тріажу
 різноманітності ZINC (`docking/ZINC_TRIAGE.md`).
 
-Репозиторій відкритий публічно; доступність посилання перевірено
-8 жовтня 2026 р. Матеріали батьківського проєкту, на які вказують
-перехресні посилання вище, залишаються закритими і доступні від автора
-для листування за запитом.
+Матеріали батьківського проєкту, на які вказують перехресні посилання
+вище, залишаються закритими і доступні від автора для листування за
+запитом.
 
 Походження кожного результату наведено в таблиці нижче.
 
@@ -830,13 +821,9 @@ smoke-тест докінгу (`docking/SMOKE_TEST.md`) і опис тріажу
 | Зіставлення залишків кишені між паралогами | `target_validation/pocket_residue_alignment.py` | `target_validation/pocket_residue_alignment.csv` |
 | Локальна/глобальна подібність представлень ESM-2 (Таблиця 4) | `target_validation/esm_pocket_embedding_similarity.py` | `target_validation/esm_pocket_similarity.csv`, `target_validation/esm_pocket_similarity.md` |
 
-## Фінансування
-
-*[заповнити]*
-
 ## Конфлікт інтересів
 
-*[заповнити]*
+Автори заявляють про відсутність конфлікту інтересів.
 
 ## Список літератури
 
@@ -906,32 +893,24 @@ smoke-тест докінгу (`docking/SMOKE_TEST.md`) і опис тріажу
 19. Thoreau E, Arlabosse JM, Bouix-Peter C, et al. Structure-based design
     of trifarotene (CD5789), a potent and selective RARγ agonist for the
     treatment of acne. *Bioorg Med Chem Lett.* 2018;28(10):1736–1741.
-    doi:10.1016/j.bmcl.2018.04.036 *(первинна публікація для PDB 6FX0,
-    використаної безпосередньо в цій роботі)*
+    doi:10.1016/j.bmcl.2018.04.036
 20. Chandraratna RAS. Tazarotene — first of a new generation of
     receptor-selective retinoids. *Br J Dermatol.* 1996;135(Suppl
     49):18–25. doi:10.1111/j.1365-2133.1996.tb15662.x
 21. Esser CK, Bugianesi RL, Caldwell CG, et al. Inhibition of
     stromelysin-1 (MMP-3) by P1′-biphenylylethyl carboxyalkyl dipeptides.
-    *J Med Chem.* 1997;40(6):1026–1040. doi:10.1021/jm960465t *(первинна
-    публікація для PDB 1HFS, використаної безпосередньо в цій роботі)*
+    *J Med Chem.* 1997;40(6):1026–1040. doi:10.1021/jm960465t
 22. Lopez KE, Paduda AS, Derrick MJ, Van Horn WD. TRPV1 antagonism occurs
     through diverse structural mechanisms. *bioRxiv.* 2026.
-    doi:10.64898/2026.04.27.721197 *(первинна публікація для PDB 11CK,
-    використаної безпосередньо в цій роботі; це препринт — перевірити
-    статус рецензованої публікації перед поданням)*
+    doi:10.64898/2026.04.27.721197
 23. Zdrazil B, Felix E, Hunter F, et al. The ChEMBL Database in 2023: a
     drug discovery platform spanning multiple bioactivity data types and
     time periods. *Nucleic Acids Res.* 2024;52(D1):D1180–D1192.
-    doi:10.1093/nar/gkad1004 *(джерело відомих активних/неактивних даних
-    біоактивності RARG/MMP3, використаних безпосередньо в цій роботі,
-    через REST API ChEMBL, мішені CHEMBL2003 і CHEMBL283)*
+    doi:10.1093/nar/gkad1004
 24. Santos-Martins D, Forli S, Ramos MJ, Olson AJ. AutoDock4(Zn): an
     improved AutoDock force field for small-molecule docking to zinc
     metalloproteins. *J Chem Inf Model.* 2014;54(8):2371–2379.
-    doi:10.1021/ci500209e *(джерело силового поля координації цинку
-    AD4Zn, використаного безпосередньо в цій роботі для перевірки
-    дискримінації MMP3, п. 2.5/3.4)*
+    doi:10.1021/ci500209e
 25. Cao E, Liao M, Cheng Y, Julius D. TRPV1 structures in distinct
     conformations reveal activation mechanisms. *Nature.*
     2013;504(7478):113–118. doi:10.1038/nature12823

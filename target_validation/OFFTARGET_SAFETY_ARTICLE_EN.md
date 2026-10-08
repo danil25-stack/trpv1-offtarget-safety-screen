@@ -1,17 +1,8 @@
-*[Manuscript draft — journal format. Author name(s), affiliation(s), funding,
-and conflict-of-interest statements are left as placeholders below for you to
-complete. Every reference has been checked against Crossref/PubMed for title,
-journal, year, volume, pages, and author list (as of 8 October 2026); the only
-entry still needing a re-check before submission is ref. 22 (a bioRxiv
-preprint — verify peer-reviewed publication status).]*
-
 # In silico screening for potential off-target interactions of topical TRPV1 agonists: from paralog analysis to structure-based pocket comparison and cross-docking
 
-**[Author Name(s)]**¹
+**D. Maslov**, **A. Davis**, **A. Golub**
 
-¹ *[Affiliation, Department, Institution, City, Country]*
-
-Corresponding author: *[email]*
+Corresponding author: 99danilmaslov@gmail.com
 
 ## Abstract
 
@@ -731,7 +722,9 @@ topical small-molecule discovery programs.
 
 ## Author contributions
 
-*[to complete]*
+D.M. designed and carried out the computational work and drafted the
+manuscript. A.D. and A.G. provided supervision and critical revision of the
+manuscript. All authors approved the final version.
 
 ## Data and code availability
 
@@ -752,9 +745,8 @@ point to files in the parent (private) project and are not needed to
 reproduce anything in this repository: the TRPV1 MD residence-time pilot
 (`md_residence_time/STATUS.md`), the docking smoke test
 (`docking/SMOKE_TEST.md`), and the ZINC diversity-triage writeup
-(`docking/ZINC_TRIAGE.md`). The repository is public; link availability was
-checked on 8 October 2026. Parent-project material referenced above remains
-private and is available from the corresponding author on request.
+(`docking/ZINC_TRIAGE.md`). Parent-project material referenced above remains private and is available
+from the corresponding author on request.
 
 Provenance of each result is listed in the table below.
 
@@ -775,13 +767,9 @@ Provenance of each result is listed in the table below.
 | Pocket-residue alignment across paralogs | `target_validation/pocket_residue_alignment.py` | `target_validation/pocket_residue_alignment.csv` |
 | Local/global ESM-2 representation similarity (Table 4) | `target_validation/esm_pocket_embedding_similarity.py` | `target_validation/esm_pocket_similarity.csv`, `target_validation/esm_pocket_similarity.md` |
 
-## Funding
-
-*[to complete]*
-
 ## Conflict of interest
 
-*[to complete]*
+The authors declare no competing interests.
 
 ## References
 
@@ -850,32 +838,24 @@ Provenance of each result is listed in the table below.
 19. Thoreau E, Arlabosse JM, Bouix-Peter C, et al. Structure-based design
     of trifarotene (CD5789), a potent and selective RARγ agonist for the
     treatment of acne. *Bioorg Med Chem Lett.* 2018;28(10):1736–1741.
-    doi:10.1016/j.bmcl.2018.04.036 *(source publication for PDB 6FX0, used
-    directly in this study)*
+    doi:10.1016/j.bmcl.2018.04.036
 20. Chandraratna RAS. Tazarotene — first of a new generation of
     receptor-selective retinoids. *Br J Dermatol.* 1996;135(Suppl
     49):18–25. doi:10.1111/j.1365-2133.1996.tb15662.x
 21. Esser CK, Bugianesi RL, Caldwell CG, et al. Inhibition of
     stromelysin-1 (MMP-3) by P1′-biphenylylethyl carboxyalkyl dipeptides.
-    *J Med Chem.* 1997;40(6):1026–1040. doi:10.1021/jm960465t *(source
-    publication for PDB 1HFS, used directly in this study)*
+    *J Med Chem.* 1997;40(6):1026–1040. doi:10.1021/jm960465t
 22. Lopez KE, Paduda AS, Derrick MJ, Van Horn WD. TRPV1 antagonism occurs
     through diverse structural mechanisms. *bioRxiv.* 2026.
-    doi:10.64898/2026.04.27.721197 *(source publication for PDB 11CK, used
-    directly in this study; this is a preprint — verify peer-reviewed
-    publication status before submission)*
+    doi:10.64898/2026.04.27.721197
 23. Zdrazil B, Felix E, Hunter F, et al. The ChEMBL Database in 2023: a
     drug discovery platform spanning multiple bioactivity data types and
     time periods. *Nucleic Acids Res.* 2024;52(D1):D1180–D1192.
-    doi:10.1093/nar/gkad1004 *(source of RARG/MMP3 known active/inactive
-    bioactivity data used directly in this study, via the ChEMBL REST API,
-    targets CHEMBL2003 and CHEMBL283)*
+    doi:10.1093/nar/gkad1004
 24. Santos-Martins D, Forli S, Ramos MJ, Olson AJ. AutoDock4(Zn): an
     improved AutoDock force field for small-molecule docking to zinc
     metalloproteins. *J Chem Inf Model.* 2014;54(8):2371–2379.
-    doi:10.1021/ci500209e *(source of the AD4Zn zinc-coordination force
-    field used directly in this study for the MMP3 discrimination check,
-    Section 2.5/3.4)*
+    doi:10.1021/ci500209e
 25. Cao E, Liao M, Cheng Y, Julius D. TRPV1 structures in distinct
     conformations reveal activation mechanisms. *Nature.*
     2013;504(7478):113–118. doi:10.1038/nature12823
