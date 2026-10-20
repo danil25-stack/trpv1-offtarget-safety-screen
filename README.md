@@ -3,10 +3,13 @@
 [![tests](https://github.com/danil25-stack/trpv1-offtarget-safety-screen/actions/workflows/tests.yml/badge.svg)](https://github.com/danil25-stack/trpv1-offtarget-safety-screen/actions/workflows/tests.yml)
 
 In silico off-target safety triage for a topical TRPV1-directed analgesic,
-extracted from a larger multi-target drug discovery project. Full writeup
-and manuscript draft: [`target_validation/OFFTARGET_SAFETY_ARTICLE_EN.md`](target_validation/OFFTARGET_SAFETY_ARTICLE_EN.md)
-(Ukrainian translation: `OFFTARGET_SAFETY_ARTICLE_UA.md`; `.docx` versions
-of both are provided alongside).
+extracted from a larger multi-target drug discovery project. Methods and
+results are written up in [`target_validation/OFFTARGET_SAFETY_WRITEUP.md`](target_validation/OFFTARGET_SAFETY_WRITEUP.md).
+
+A manuscript based on this work has been prepared for submission. Its text
+is not kept in this repository; it is available from the corresponding
+author on request, and this README will link to the published article once
+it appears.
 
 ## What this is
 
@@ -73,9 +76,9 @@ common/               small Open Targets API client used by build_profile.py
 docker/               conda environments + Dockerfiles for the two compute stages (docking, ESM)
 ```
 
-Reproduction order and each script's output are listed in the article's
-"Data and code availability" table (Section: end of
-`OFFTARGET_SAFETY_ARTICLE_EN.md`).
+Reproduction order and each script's output are listed in the "Data and
+code availability" table at the end of
+[`target_validation/OFFTARGET_SAFETY_WRITEUP.md`](target_validation/OFFTARGET_SAFETY_WRITEUP.md).
 
 ## Notes on this extraction
 
